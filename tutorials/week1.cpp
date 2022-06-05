@@ -2,10 +2,10 @@
 #include <string>
 int main ( void ) {
 
-  //Question 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //Question 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // std::cout << "Hello World !" << std::endl;
 
-  //Question 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //Question 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // std::cout <<"Enter your name:" << std::endl;
   // std::string name = "";
   // std::cin >> name;
@@ -22,7 +22,7 @@ int main ( void ) {
   // std::cout <<"Your age is: " + age << std::endl;
   // std::cout <<"Your height is: " + height << std::endl;
 
-  //Question 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //Question 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //a)
   for(int i = 1; i <= 6; i++) {
 
@@ -54,7 +54,19 @@ int main ( void ) {
   std::cout <<"-------------------" << std::endl;
 
   //c)
+  for(int i = 0; i < 6; i++) {
 
+    for(int j = 1; j <= 11; j++) {
+      if(j < 6-i || j > 6+i) {
+        std::cout << " ";
+      } else {
+        std::cout << "*";
+      }
+    }
+
+    std::cout <<"\n";
+  }
+  std::cout <<"-------------------" << std::endl;
 
   return EXIT_SUCCESS ;
 }
