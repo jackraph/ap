@@ -1,17 +1,7 @@
 #include "Card.h"
-#include <string>
-
-//Default constructor.
-Card::Card() {
-        deckNum = -1;
-        number = -1;
-        colorNum = -1;
-        color = "OOB";
-        rule = "OOB";
-}
 
 Card::Card(int num) {
-    deckNum = num;
+    deckPos = num;
 
     if(num <= 6) {
         //RED
@@ -30,7 +20,7 @@ Card::Card(int num) {
         number = num - 13;
         colorNum = 2;
         color = "Yellow";
-        rule = "Most of one color wins";
+        rule = "Most of one color wins.";
     } else if(num <= 27) {
         //GREEN
         number = num - 20;
@@ -42,7 +32,7 @@ Card::Card(int num) {
         number= num - 27;
         colorNum = 4;
         color = "Blue";
-        rule = "Most differnt colors wins.";
+        rule = "Most different colors wins.";
     } else if(num <= 41) {
         //INDIGO
         number = num - 34;
@@ -58,8 +48,8 @@ Card::Card(int num) {
     }
  }
 
-int Card::getDeckNum() {
-    return deckNum;
+int Card::getDeckPos() {
+    return deckPos;
 }
  
 int Card::getNumber() {
