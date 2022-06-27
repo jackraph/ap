@@ -54,10 +54,12 @@ int main(int argc, char** argv){
 
 }
 
+// Read environment here.
 void readEnvStdin(Env env){
     //TODO 
 }
 
+// Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
     //TODO
 }
