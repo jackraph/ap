@@ -31,7 +31,11 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
     
+    //Return true if list contains a node at given co ordinates.
+    bool isNodeInList(int row, int col);
 
+    //Return true if list contains a node at given co ordinates.
+    bool isNodeInList(Node& node);
 
 private:
     /*                                           */
@@ -48,6 +52,8 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+
 };
 
 

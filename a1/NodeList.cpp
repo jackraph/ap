@@ -5,6 +5,7 @@
 NodeList::NodeList(){
     // TODO
     //Initialise variables.
+    this->length = 0;
 }
 
 //Deconstructor
@@ -41,4 +42,27 @@ void NodeList::addElement(Node* newPos){
 // Get a pointer to the ith node in the node list
 Node* NodeList::getNode(int i){
     return this->nodes[i];
+}
+
+//Return true if list contains a node at given co ordinates.
+bool NodeList::isNodeInList(int row, int col) {
+
+    bool result = false;
+    for(int i = 0; i < this->length; i++) {
+        if(nodes[i]->getRow() == row && nodes[i]->getCol() == col) {
+            result = true;
+        } 
+    }
+    return result;
+}
+
+//Return true if list contains a node matching the address of given node reference.
+bool NodeList::isNodeInList(Node& nodeR) {
+    bool result = false;
+    for(int i = 0; i < this->length; i++) {
+        if(&nodeR == this->nodes[i]) {
+            result = true;
+        } 
+    }
+    return result;
 }
