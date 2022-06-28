@@ -33,6 +33,8 @@ int NodeList::getLength(){
 
 // Add a COPY node element to the BACK of the nodelist.
 void NodeList::addElement(Node* newPos){
+
+    nodes[length] = newPos;
     this->length++;
 }
 
