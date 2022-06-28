@@ -20,14 +20,14 @@ void PathSolver::forwardSearch(Env env){
     Node* S;
     Node* G;
 
-    // Build Environment-List(E).
+    // Build Environment-List(E)
     for(int y = 0; y < ENV_DIM; y++) {
         for(int x = 0; x < ENV_DIM; x++) {
                 E->addElement(&Node(y, x, 0));          
         }
     }
 
-    // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G).
+    // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G)
     for(int i = 0; i < E->getLength(); i++) {
         Node* openNode = E->getNode(i);
         char symbol = env[openNode->getRow()][openNode->getCol()];
@@ -46,15 +46,15 @@ void PathSolver::forwardSearch(Env env){
         // Position(p)
         Node* p = S;
         
-        // Assign node from Open-List(P) as Position(p) 
-        // If it current p and is not in closed-list(C).
+        // Iterate Open-List(P) to find next Position(p)
         for(int i = 0; i < P->getLength(); i++) {
 
-            //Open-Node(o)
+            // Open-Node(o)
             Node* o = P->getNode(i);
-            if (o->getEstimatedDist2Goal() < p->getEstimatedDist2Goal() 
-            && !C->isNodeInList(o)) {
-                p = openNode;
+
+            // If it current p and is not in closed-list(C).
+            if (o->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G) && !C->isNodeInList(o)) {
+                p = o;
             }
         }
 
