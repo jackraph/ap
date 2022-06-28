@@ -74,6 +74,9 @@ void PathSolver::forwardSearch(Env env){
     } while (p != G || iterations < NODE_LIST_ARRAY_MAX_SIZE);
 
     //Solved or failed to find path
+
+    
+    this->nodesExplored = C;
 }
 
 
@@ -83,7 +86,58 @@ NodeList* PathSolver::getNodesExplored(){
 }
 
 NodeList* PathSolver::getPath(Env env){
-    // TODO
+
+    // Explored-List(E) | Path-List(P)
+    NodeList* E = this->nodesExplored;
+    NodeList* P;
+
+    // Starting-Node(S) | Goal-Node(G)
+    Node* S;
+    Node* G;
+
+
+    // Iterate Explored-List(E) to find Starting-Node(S) & Goal-Node(G)
+    // NOTE: This is backtracking so starting from the goal symbol and finishing at the start symbol.
+    for(int i = 0; i < E->getLength(); i++) {
+        Node* openN = E->getNode(i);
+        char symbol = env[openN->getRow()][openN->getCol()];
+        if(symbol == SYMBOL_GOAL) {
+            S = openN;
+            P->addElement(S);
+        } else if (symbol == SYMBOL_START) {
+            G = openN;
+        }
+    }
+
+    // Path-Node(p)
+    Node* p = S;
+    do {
+        
+        // Iterate Explored-List(E) to find next Path-Node(p)
+        // Other-Node(q) 1 grid step away from Path-Node(p) & its distance_travelled is 1 less than p.
+        for(int i = 0; i < E->getLength(); i++) {
+            Node* q = E->getNode(i);
+            if(std::abs(q->getCol() - q->getCol()) + std::abs(q->getRow() - q->getRow()) == 1) {
+                if(q->getDistanceTraveled() + 1 == p->getDistanceTraveled()) {
+                    p = q;
+                }
+            }
+        }
+
+        // Add Path-Node(p) to Path-List(P)
+        P->addElement(p);
+
+    } while (p != G);
+
+    //Flip Path-List(P) into new array before returning
+    NodeList* Path;
+    for(int i = 0; i < P->getLength(); i++) {
+        Path->
+    }
+
+    return Path;
+
+
 }
 
 //-----------------------------
