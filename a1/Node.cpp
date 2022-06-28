@@ -11,8 +11,8 @@ Node::Node(int row, int col, int dist_traveled)
 
 Node::~Node(){
     // TODO~~~~~~~~~~~~~
-    //DECONSTRUCTOR CODE HERE!!!
-    //TODO ~~~~~~~~~~
+    // DECONSTRUCTOR CODE HERE!!!
+    // TODO ~~~~~~~~~~
 }
 
 int Node::getRow(){
