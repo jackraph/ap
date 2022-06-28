@@ -25,10 +25,10 @@ int main(int argc, char** argv){
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
-    testNode();
-    testNodeList();
-    std::cout << "DONE TESTING" << std::endl << std::endl;
+    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    // testNode();
+    // testNodeList();
+    // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
@@ -37,10 +37,12 @@ int main(int argc, char** argv){
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     PathSolver* pathSolver = new PathSolver();
+    std::cout << "TESTING psolver contruct" << std::endl;
     pathSolver->forwardSearch(env);
+    std::cout << "TESTING fs" << std::endl;
 
-    NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
+    //NodeList* exploredPositions = nullptr;
+    //exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
@@ -49,19 +51,49 @@ int main(int argc, char** argv){
     printEnvStdout(env, solution);
 
     delete pathSolver;
-    delete exploredPositions;
+    //delete exploredPositions;
     delete solution;
 
 }
 
 // Read environment here.
 void readEnvStdin(Env env){
-    //TODO 
+
+    std::ifstream infile("input.env");
+    if (!infile.is_open ()) // ALWAYS TEST IF FILE EXISTS
+    {
+        std::cout << "Input file not found at path 'input.env'." << std::endl;
+        return;
+    }
+
+    //Read infile to our Env type.
+    for(int y = 0; y < ENV_DIM; y++) {
+        for(int x = 0; x < ENV_DIM; x++) {
+            infile >> env[y][x];
+        }
+    }
+
+    //Print env to console.
+    for(int y = 0; y < ENV_DIM; y++) {
+        for(int x = 0; x < ENV_DIM; x++) {
+            std::cout << env[y][x];      
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "File Read." << std::endl;
+    
 }
 
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
-    //TODO
+    
+    std::cout << "Made it to printEnvStdout";
+    for(int y = 0; y < ENV_DIM; y++) {
+        for(int x = 0; x < ENV_DIM; x++) {
+              
+        }
+    }
 }
 
 void testNode() {
@@ -107,4 +139,5 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+
 }
