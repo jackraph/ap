@@ -31,10 +31,8 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
     
-    //Return true if list contains a node at given co ordinates.
-    bool isNodeInList(int row, int col);
 
-    //Return true if list contains a node at given co ordinates.
+    //Return true if list contains a natching reference at given pointer.
     bool isNodeInList(Node* node);
 
 private:
