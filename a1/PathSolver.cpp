@@ -10,59 +10,74 @@ PathSolver::~PathSolver(){
 }
 
 void PathSolver::forwardSearch(Env env){
-    NodeList* openList;
-    NodeList* closedList;
 
-    // Find  and add start location to the open list.
+    // Environment-List(E) | Open-List(P) | Closed-List(C)
+    NodeList* E;
+    NodeList* P;
+    NodeList* C;
+
+    // Starting-Node(S) | Goal-Node(G)
+    Node* S;
+    Node* G;
+
+    // Build Environment-List(E).
     for(int y = 0; y < ENV_DIM; y++) {
         for(int x = 0; x < ENV_DIM; x++) {
-            if (env[y][x] == SYMBOL_START) {
-                openList->addElement(&Node(y, x, 0));
-            }
+                E->addElement(&Node(y, x, 0));          
         }
     }
 
-    //Current position. Initially assigned to starting node.
-    Node& p = *openList->getNode(0);
+    // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G).
+    for(int i = 0; i < E->getLength(); i++) {
+        Node* openNode = E->getNode(i);
+        char symbol = env[openNode->getRow()][openNode->getCol()];
+        if(symbol == SYMBOL_START) {
+            S = openNode;
+            P->addElement(S);
+        } else if (symbol == SYMBOL_GOAL) {
+            G = openNode;
+        }
+    }
+
+
     
     do {
 
-        //Select the node p from the open-list P that has the smallest estimated distance (see Section 3.2.2)
-        //to goal and, is not in the closed-list C.
-        for(int i = 0; i < openList->getLength(); i++) {
+        // Position(p)
+        Node* p = S;
+        
+        // Assign node from Open-List(P) as Position(p) 
+        // If it current p and is not in closed-list(C).
+        for(int i = 0; i < P->getLength(); i++) {
 
-            Node& openNode = *openList->getNode(i);
-
-            //Select node from open list if it has a lower distance travelled than current p.
-            if (openNode.getDistanceTraveled() < p.getDistanceTraveled()) {
-
-                //Check it is not in the closed list.
-                // bool closed = false;
-                // for (int j = 0; j < closedList->getLength(); j++) {
-                //     if (&openNode == closedList->getNode(j)) {
-                //         closed = true;
-                //     }
-                // }
-                //If not found in the closed list update the position (p) reference.
-                // if(!closed) {
-                //     p = node;
-                // }
-                if(closedList->isNodeInList(openNode)) {
-                    p = openNode;
-                }
-
+            //Open-Node(o)
+            Node* o = P->getNode(i);
+            if (o->getEstimatedDist2Goal() < p->getEstimatedDist2Goal() 
+            && !C->isNodeInList(o)) {
+                p = openNode;
             }
         }
 
         //Up, Right, Down, Left
+        // if(env[p.getRow() + 1][p.getCol()])
         // if(env[p.getRow()][p.getCol() + 1])
-        // if(env[p.getRow()][p.getCol() + 1])
-        // if(env[p.getRow()][p.getCol() + 1])
-        // if(env[p.getRow()][p.getCol() + 1])
+        // if(env[p.getRow() - 1][p.getCol()])
+        // if(env[p.getRow()][p.getCol() - 1])
 
-        //Find the postions that can be reached from p and add them to the open list.
-        for(int i = 0; i < 4; i++) {
+        //if(openList->isNodeInList(p.getRow(), p.getRow()))
 
+        //Loop through all 4 directions robot can move.
+        for(int i = -1; i < 1; i++) {
+
+            //Down then Right
+            if(!openList->isNodeInList(p.getRow() + i, p.getCol() + i + 1)) {
+
+            }
+
+            //Up then Left
+            if(!openList->isNodeInList(p.getRow() - i, p.getCol() - i - 1)) {
+
+            }
         }
         
 

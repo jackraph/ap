@@ -57,10 +57,10 @@ bool NodeList::isNodeInList(int row, int col) {
 }
 
 //Return true if list contains a node matching the address of given node reference.
-bool NodeList::isNodeInList(Node& nodeR) {
+bool NodeList::isNodeInList(Node* node) {
     bool result = false;
     for(int i = 0; i < this->length; i++) {
-        if(&nodeR == this->nodes[i]) {
+        if(node == this->nodes[i]) {
             result = true;
         } 
     }
