@@ -131,13 +131,11 @@ NodeList* PathSolver::getPath(Env env){
 
     //Flip Path-List(P) into new array before returning
     NodeList* Path;
-    for(int i = 0; i < P->getLength(); i++) {
-        Path->
+    for(int i = 1; i <= P->getLength(); i++) {
+        Path->addElement(P->getNode(P->getLength() - i));
     }
 
     return Path;
-
-
 }
 
 //-----------------------------
