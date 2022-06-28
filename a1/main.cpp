@@ -37,7 +37,6 @@ int main(int argc, char** argv){
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     PathSolver* pathSolver = new PathSolver();
-    std::cout << "TESTING psolver contruct" << std::endl;
     pathSolver->forwardSearch(env);
     std::cout << "TESTING fs" << std::endl;
 
