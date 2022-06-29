@@ -4,7 +4,7 @@
 PathSolver::PathSolver(){
     // TODO
 }
-
+//Testing github connection from main PC
 PathSolver::~PathSolver(){
     delete this->nodesExplored;
 }
