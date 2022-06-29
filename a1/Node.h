@@ -30,6 +30,9 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    //Return char symbol associated with this node.
+    char getSymbol(Env env);
+
 
 private:
     /*                                           */

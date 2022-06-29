@@ -38,3 +38,7 @@ int Node::getEstimatedDist2Goal(Node* goal){
 }
     
 //--------------------------------                             
+
+char Node::getSymbol(Env env) {
+     return env[this->row][this->col];
+}

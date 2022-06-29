@@ -9,106 +9,159 @@ PathSolver::~PathSolver(){
     delete this->nodesExplored;
 }
 
+//Second attempt.
 void PathSolver::forwardSearch(Env env){
-
-
+    
     // Environment-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList();
     NodeList* P = new NodeList();
     NodeList* C = new NodeList();
 
     // Starting-Node(S) | Goal-Node(G)
-    Node* S;
-    Node* G;
+    Node* S = nullptr;
+    Node* G = nullptr;
 
-    // Build Environment-List(E)
+    // Build Environment-List(E) + find Starting-Node(S) & Goal-Node(G)
     for(int y = 0; y < ENV_DIM; y++) {
         for(int x = 0; x < ENV_DIM; x++) {
-                E->addElement(new Node(y, x, 0));          
+
+            //Create node for each position in environment
+            Node* newNode = new Node(y, x, 0);
+            E->addElement(newNode); 
+
+            if (newNode->getSymbol(env) == SYMBOL_START) {
+                S = newNode;
+                P->addElement(newNode);  
+                std::cout << "Start found at " << y << "," << x << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+            } else if (newNode->getSymbol(env) == SYMBOL_GOAL) {
+                G = newNode; 
+                std::cout << "Goal found at " << y << "," << x << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }            
         }
     }
 
-    //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~
-    // read environment using the node array.
+    std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" <<std::endl;
+
+    //read environment using the node array. TESTING PURPOSED DELETE ME LATER
     for(int i = 0; i < E->getLength(); i++) {
         
         if(i%ENV_DIM == 0) {
             std::cout << std::endl;
         }
         Node* openN = E->getNode(i);
-        std::cout << env[openN->getRow()][openN->getCol()] ;
+        std::cout << openN->getSymbol(env);
     }
-    //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~^
+
+    std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" <<std::endl;
+
+    //DYNAMIC DYNAMIC DYNAMCI
 
 
-    // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G)
-    for(int i = 0; i < E->getLength(); i++) {
-        Node* openN = E->getNode(i);
-        char symbol = env[openN->getRow()][openN->getCol()];
-        if(symbol == SYMBOL_START) {
-            S = openN;
-            P->addElement(S);
-        } else if (symbol == SYMBOL_GOAL) {
-            G = openN;
-        } else if (symbol == SYMBOL_WALL) {
-            C->addElement(openN);
-        }
-    }
+    //STUFF
+}
+
+//Original attempt.
+// void PathSolver::forwardSearch(Env env){
+
+
+//     // Environment-List(E) | Open-List(P) | Closed-List(C)
+//     NodeList* E = new NodeList();
+//     NodeList* P = new NodeList();
+//     NodeList* C = new NodeList();
+
+//     // Starting-Node(S) | Goal-Node(G)
+//     Node* S;
+//     Node* G;
+
+//     // Build Environment-List(E)
+//     for(int y = 0; y < ENV_DIM; y++) {
+//         for(int x = 0; x < ENV_DIM; x++) {
+//                 E->addElement(new Node(y, x, 0));          
+//         }
+//     }
+
+//     //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~
+//     // read environment using the node array.
+//     for(int i = 0; i < E->getLength(); i++) {
+        
+//         if(i%ENV_DIM == 0) {
+//             std::cout << std::endl;
+//         }
+//         Node* openN = E->getNode(i);
+//         std::cout << env[openN->getRow()][openN->getCol()] ;
+//     }
+//     //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~^
+
+
+//     // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G)
+//     for(int i = 0; i < E->getLength(); i++) {
+//         Node* openN = E->getNode(i);
+//         char symbol = env[openN->getRow()][openN->getCol()];
+//         if(symbol == SYMBOL_START) {
+//             S = openN;
+//             P->addElement(S);
+//         } else if (symbol == SYMBOL_GOAL) {
+//             G = openN;
+//         } else if (symbol == SYMBOL_WALL) {
+//             C->addElement(openN);
+//         }
+//     }
     
 
-    // Position(p)
-    Node* p = S;
+//     // Position(p)
+//     Node* p = S;
 
-    int iterations = 0;
-    do {
-        std::cout << "-0-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Iterate Open-List(P) to find next Position(p)
-        // Next position to be closer to goal than current Position(p) and NOT in the Closed-List(C)
-        for(int i = 0; i < P->getLength(); i++) {
-            std::cout << "-1-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-            Node* openN = P->getNode(i);
-            std::cout << "-2-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (openN->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G) && !C->isNodeInList(openN)) {
-                std::cout << "-3-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-                p = openN;
-                std::cout << "-4-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-            }
-        }
+//     int iterations = 0;
+//     do {
+//         std::cout << "-0-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//         // Iterate Open-List(P) to find next Position(p)
+//         // Next position to be closer to goal than current Position(p) and NOT in the Closed-List(C)
+//         for(int i = 0; i < P->getLength(); i++) {
+//             std::cout << "-1-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//             Node* openN = P->getNode(i);
+//             std::cout << "-2-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//             if (openN->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G) && !C->isNodeInList(openN)) {
+//                 std::cout << "-3-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                 p = openN;
+//                 std::cout << "-4-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//             }
+//         }
         
-        // Iterate Environment-List(E) to find Other-Positions(q) in range of Position(p)
-        // Populate Open-List(P) with Other-Positions(q) that are 1 grid step away
-        for(int i = 0; i < E->getLength(); i++) {
-            Node* q = E->getNode(i);
-            char symbol = env[q->getRow()][q->getCol()];
-            std::cout << "-5-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if(std::abs(q->getCol() - p->getCol()) + std::abs(q->getRow() - p->getRow()) == 1) {
-                std::cout << "-6-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-                q->setDistanceTraveled(p->getDistanceTraveled() + 1);
-                if(!P->isNodeInList(q) && symbol != SYMBOL_WALL) {
-                    P->addElement(q);
-                    std::cout << "-7-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-                }
-            }      
-        }
+//         // Iterate Environment-List(E) to find Other-Positions(q) in range of Position(p)
+//         // Populate Open-List(P) with Other-Positions(q) that are 1 grid step away
+//         for(int i = 0; i < E->getLength(); i++) {
+//             Node* q = E->getNode(i);
+//             std::cout << "-5-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//             if(std::abs(q->getCol() - p->getCol()) < 2 && std::abs(q->getRow() - p->getRow()) <2) {
+//                 std::cout << "-6-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                 q->setDistanceTraveled(p->getDistanceTraveled() + 1);
+//                 if(!P->isNodeInList(q)) {
+//                     P->addElement(q);
+//                     std::cout << "-7-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                 }
+//             }      
+//         }
 
-        // Add Position(p) to the Closed-List(C)
-        if(!C->isNodeInList(p)) {
-            C->addElement(p);
-            std::cout << "-8-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-        }
+//         // Add Position(p) to the Closed-List(C)
+//         if(!C->isNodeInList(p)) {
+//             C->addElement(p);
+//             std::cout << "-8-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
+//         }
         
         
-        iterations++;
-    } while (env[p->getRow()][p->getCol()] != SYMBOL_GOAL);
+//         iterations++;
+//     } while (env[p->getRow()][p->getCol()] != SYMBOL_GOAL);
 
-    //Solved or failed to find path
+//     //Solved or failed to find path
 
-    std::cout <<"Iterations: "  << iterations << std::endl;
-    this->nodesExplored = C;
+//     std::cout <<"Iterations: "  << iterations << std::endl;
+//     this->nodesExplored = C;
 
 
-    //DELETE NODELISTS HERE.
-}
+//     //DELETE NODELISTS HERE.
+// }
+
+    
 
 
 

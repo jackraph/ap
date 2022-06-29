@@ -73,12 +73,12 @@ void readEnvStdin(Env env){
     }
 
     //Print env to console.
-    // for(int y = 0; y < ENV_DIM; y++) {
-    //     for(int x = 0; x < ENV_DIM; x++) {
-    //         std::cout << env[y][x];      
-    //     }
-    //     std::cout << std::endl;
-    // }
+    for(int y = 0; y < ENV_DIM; y++) {
+        for(int x = 0; x < ENV_DIM; x++) {
+            std::cout << env[y][x];      
+        }
+        std::cout << std::endl;
+    }
 
     std::cout << "File Read." << std::endl;
     
