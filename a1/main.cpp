@@ -40,8 +40,8 @@ int main(int argc, char** argv){
     PathSolver* pathSolver = new PathSolver();
     pathSolver->forwardSearch(env);
 
-    //NodeList* exploredPositions = nullptr;
-    //exploredPositions = pathSolver->getNodesExplored();
+    NodeList* exploredPositions = nullptr;
+    exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
@@ -73,12 +73,12 @@ void readEnvStdin(Env env){
     }
 
     //Print env to console.
-    for(int y = 0; y < ENV_DIM; y++) {
-        for(int x = 0; x < ENV_DIM; x++) {
-            std::cout << env[y][x];      
-        }
-        std::cout << std::endl;
-    }
+    // for(int y = 0; y < ENV_DIM; y++) {
+    //     for(int x = 0; x < ENV_DIM; x++) {
+    //         std::cout << env[y][x];      
+    //     }
+    //     std::cout << std::endl;
+    // }
 
     std::cout << "File Read." << std::endl;
     
@@ -87,11 +87,9 @@ void readEnvStdin(Env env){
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
     
-    std::cout << "Made it to printEnvStdout";
-    for(int y = 0; y < ENV_DIM; y++) {
-        for(int x = 0; x < ENV_DIM; x++) {
-              
-        }
+    for(int i = 0; i < solution->getLength(); i++) {
+
+        
     }
 }
 
