@@ -45,9 +45,8 @@ int main(int argc, char** argv){
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    // NodeList* solution = pathSolver->getPath(env);
-
-    //printEnvStdout(env, solution);
+    NodeList* solution = pathSolver->getPath(env);
+    printEnvStdout(env, solution);
 
     //delete pathSolver;
     //delete exploredPositions;
@@ -86,10 +85,13 @@ void readEnvStdin(Env env){
 
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
+
+    std::cout << "-------------------_PATH------------------" << std::endl; 
     
     for(int i = 0; i < solution->getLength(); i++) {
 
-        
+        Node* n = solution->getNode(i);
+        std::cout << n->getRow() << "," << n->getCol() << "," << std::endl; 
     }
 }
 

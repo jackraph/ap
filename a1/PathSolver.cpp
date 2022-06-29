@@ -6,7 +6,7 @@ PathSolver::PathSolver(){
 }
 
 PathSolver::~PathSolver(){
-    delete this->nodesExplored;
+    //TODO
 }
 
 void PathSolver::forwardSearch(Env env){
@@ -103,41 +103,25 @@ void PathSolver::forwardSearch(Env env){
 
     nodesExplored = C;
 
-    //DEBUGGING
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    std::cout << std::endl << "Loop successful" <<std::endl;
-
-    //Print open nodelist;
-    std::cout << std::endl << "Open-List(P) ~~~~~" <<std::endl;
-    for(int i = 0; i < P->getLength(); i++) {
-        Node* n = P->getNode(i);
-        std::cout << std::endl << "ONode: " << n->getRow() << "," << n->getCol() <<std::endl;
-    }
-
-    //Print closed nodelist;
-    std::cout << std::endl << "Closed-List(C) ~~~~~" <<std::endl;
-    for(int i = 0; i < C->getLength(); i++) {
-        Node* n = C->getNode(i);
-        std::cout << std::endl << "CNode: " << n->getRow() << "," << n->getCol() <<std::endl;
-    }
-
     //MEMORY CLEANUP
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     delete E;
+    E = nullptr;
     delete P;
-    delete C;
-    
+    P = nullptr;
+    delete C;  
+    C = nullptr; 
 }
 
 NodeList* PathSolver::getNodesExplored(){
-    return new NodeList(*this->nodesExplored);
+    return this->nodesExplored;
 }
 
 //Attempt 2
 NodeList* PathSolver::getPath(Env env){
 
 
-    // Environment-List(E) | Open-List(P) | Closed-List(C)
+    //Path-List(P)
     NodeList* P = new NodeList();
 
     // Starting-Node(S) | Goal-Node(G)
@@ -156,7 +140,7 @@ NodeList* PathSolver::getPath(Env env){
     }
     
 
-    //Position(p) starts are the last node in the exploredNodes NodeList
+    //Position(p) starts at the last node in the exploredNodes NodeList
     Node* p = nodesExplored->getNode(nodesExplored->getLength() - 1);
 
     do {
@@ -180,15 +164,23 @@ NodeList* PathSolver::getPath(Env env){
 
             //XOR operation to filter diagonals. If the position is 1 grid-step away on both axis it is a diagonal
             if((v != h && (v == true || h == true))) {
+
+                //Add to path
                 if(p->getDistanceTraveled() - q->getDistanceTraveled() == 1) {
+                    
                     P->addElement(q);
+                    p = q;
                 }
             }
         }
 
     } while(p->getSymbol(env) != SYMBOL_START);
 
-    //Flip and return
+    std::cout << "Made it here yay" <<std::endl;
+
+    return P;
+
+    //how am i ment to do this I wonder?
 }
 
 // NodeList* PathSolver::getPath(Env env){
