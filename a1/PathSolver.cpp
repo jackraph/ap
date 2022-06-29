@@ -4,7 +4,7 @@
 PathSolver::PathSolver(){
     // TODO
 }
-//Testing github connection from main PC
+
 PathSolver::~PathSolver(){
     delete this->nodesExplored;
 }
@@ -21,149 +21,111 @@ void PathSolver::forwardSearch(Env env){
     Node* S = nullptr;
     Node* G = nullptr;
 
-    // Build Environment-List(E) + find Starting-Node(S) & Goal-Node(G)
+    // Build Environment-List(E) from given env, then find Starting-Node(S) & Goal-Node(G)
     for(int y = 0; y < ENV_DIM; y++) {
         for(int x = 0; x < ENV_DIM; x++) {
 
-            //Create node for each position in environment
+            //Create node for each position in the environment
             Node* newNode = new Node(y, x, 0);
             E->addElement(newNode); 
 
+            //Assign Starting-Node(S) & Goal-Node(G) pointers to their respective Node obj memory addresses
             if (newNode->getSymbol(env) == SYMBOL_START) {
                 S = newNode;
-                P->addElement(newNode);  
-                std::cout << "Start found at " << y << "," << x << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!
             } else if (newNode->getSymbol(env) == SYMBOL_GOAL) {
                 G = newNode; 
-                std::cout << "Goal found at " << y << "," << x << std::endl; //!!!!!!!!!!!!!!!!!!!!!!!!!!
             }            
         }
     }
 
-    std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" <<std::endl;
+    //Add starting node to the Open-List(P)
+    P->addElement(S);  
 
-    //read environment using the node array. TESTING PURPOSED DELETE ME LATER
-    for(int i = 0; i < E->getLength(); i++) {
-        
-        if(i%ENV_DIM == 0) {
-            std::cout << std::endl;
+    // Position(p)
+    Node* p = S;
+
+    int iterations = 0;
+    do {
+        //DEBUGGING REMOVE B4 SUBMISSION
+        std::cout << std::endl << "Iteration: " << iterations << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" <<std::endl;
+
+        //Select a Position(p) from Open-List(P) that has the smallest estimated distance to goal and is not in the Closed-List(C)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        for(int i = 0; i < P->getLength(); i++) {
+            Node* n = P->getNode(i);
+
+            //New-Position(n) is not the Closed-List(C)
+            if(!C->isNodeInList(n)) {
+                
+                //Current Position(p) is in the Closed-List(C) or New-Position(n) is closer to the goal
+                if(C->isNodeInList(p) || n->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G)) 
+                { 
+                    p = n; 
+                    std::cout << std::endl << "Moved to: " << n->getRow() << "," << n->getCol() <<std::endl;
+                }           
+            }
+        }      
+
+        //For each Other-Position(q) in Environment-List(E) that the robot can reach from Position(p)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        for(int i = 0; i < E->getLength(); i++) {
+            Node* q = E->getNode(i);
+
+            //Axis booleans.
+            bool v,h = false;
+      
+            //Other-Position(q) is 1 grid-step away from Position(p) on the Vertical axis.
+            if(std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol()) { 
+                v = true; 
+            }
+
+            //Other-Position(q) is 1 step away from Position(p) on the Horizontal axis.
+            if(std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow()) { 
+                h = true; 
+            }
+
+            //XOR operation. If the position is 1 grid-step away on both axis it is a diagonal
+            if((v != h && (v == true || h == true))) {
+
+                //Other-Position(q) is not an obstacle
+                if(q->getSymbol(env) != SYMBOL_WALL) {
+
+                    //Set the distance_travelled of q to be one more that that of p
+                    q->setDistanceTraveled(p->getDistanceTraveled() + 1);
+
+                    //Add q to Open-List(P) only if it is not already in it.
+                    if(!(P->isNodeInList(q))) { 
+                        P->addElement(q); 
+                        std::cout << std::endl << "Found reachable node at: " << q->getRow() << "," << q->getCol() <<std::endl;
+                    }               
+                }
+            }
         }
-        Node* openN = E->getNode(i);
-        std::cout << openN->getSymbol(env);
+
+        //Add Position(p) to the Closed-List(C)
+        C->addElement(p);
+
+     iterations++;
+    } while (p->getSymbol(env) != SYMBOL_GOAL && iterations < E->getLength());
+
+    //DEBUGGING
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    std::cout << std::endl << "Loop successful" <<std::endl;
+
+    //Print open nodelist;
+    std::cout << std::endl << "Open-List(P) ~~~~~" <<std::endl;
+    for(int i = 0; i < P->getLength(); i++) {
+        Node* n = P->getNode(i);
+        std::cout << std::endl << "ONode: " << n->getRow() << "," << n->getCol() <<std::endl;
     }
 
-    std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" <<std::endl;
-
-    //DYNAMIC DYNAMIC DYNAMCI
-
-
-    //STUFF
+    //Print closed nodelist;
+    std::cout << std::endl << "Closed-List(C) ~~~~~" <<std::endl;
+    for(int i = 0; i < C->getLength(); i++) {
+        Node* n = C->getNode(i);
+        std::cout << std::endl << "CNode: " << n->getRow() << "," << n->getCol() <<std::endl;
+    }
 }
-
-//Original attempt.
-// void PathSolver::forwardSearch(Env env){
-
-
-//     // Environment-List(E) | Open-List(P) | Closed-List(C)
-//     NodeList* E = new NodeList();
-//     NodeList* P = new NodeList();
-//     NodeList* C = new NodeList();
-
-//     // Starting-Node(S) | Goal-Node(G)
-//     Node* S;
-//     Node* G;
-
-//     // Build Environment-List(E)
-//     for(int y = 0; y < ENV_DIM; y++) {
-//         for(int x = 0; x < ENV_DIM; x++) {
-//                 E->addElement(new Node(y, x, 0));          
-//         }
-//     }
-
-//     //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~
-//     // read environment using the node array.
-//     for(int i = 0; i < E->getLength(); i++) {
-        
-//         if(i%ENV_DIM == 0) {
-//             std::cout << std::endl;
-//         }
-//         Node* openN = E->getNode(i);
-//         std::cout << env[openN->getRow()][openN->getCol()] ;
-//     }
-//     //TESTING TESTING TESING~~~~~~~~~~~~~~~~~~~~~~~^
-
-
-//     // Iterate Environment-List(E) to find Starting-Node(S) & Goal-Node(G)
-//     for(int i = 0; i < E->getLength(); i++) {
-//         Node* openN = E->getNode(i);
-//         char symbol = env[openN->getRow()][openN->getCol()];
-//         if(symbol == SYMBOL_START) {
-//             S = openN;
-//             P->addElement(S);
-//         } else if (symbol == SYMBOL_GOAL) {
-//             G = openN;
-//         } else if (symbol == SYMBOL_WALL) {
-//             C->addElement(openN);
-//         }
-//     }
-    
-
-//     // Position(p)
-//     Node* p = S;
-
-//     int iterations = 0;
-//     do {
-//         std::cout << "-0-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//         // Iterate Open-List(P) to find next Position(p)
-//         // Next position to be closer to goal than current Position(p) and NOT in the Closed-List(C)
-//         for(int i = 0; i < P->getLength(); i++) {
-//             std::cout << "-1-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//             Node* openN = P->getNode(i);
-//             std::cout << "-2-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//             if (openN->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G) && !C->isNodeInList(openN)) {
-//                 std::cout << "-3-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                 p = openN;
-//                 std::cout << "-4-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//             }
-//         }
-        
-//         // Iterate Environment-List(E) to find Other-Positions(q) in range of Position(p)
-//         // Populate Open-List(P) with Other-Positions(q) that are 1 grid step away
-//         for(int i = 0; i < E->getLength(); i++) {
-//             Node* q = E->getNode(i);
-//             std::cout << "-5-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//             if(std::abs(q->getCol() - p->getCol()) < 2 && std::abs(q->getRow() - p->getRow()) <2) {
-//                 std::cout << "-6-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                 q->setDistanceTraveled(p->getDistanceTraveled() + 1);
-//                 if(!P->isNodeInList(q)) {
-//                     P->addElement(q);
-//                     std::cout << "-7-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                 }
-//             }      
-//         }
-
-//         // Add Position(p) to the Closed-List(C)
-//         if(!C->isNodeInList(p)) {
-//             C->addElement(p);
-//             std::cout << "-8-"; //!!!!!!!!!!!!!!!!!!!!!!!!!!
-//         }
-        
-        
-//         iterations++;
-//     } while (env[p->getRow()][p->getCol()] != SYMBOL_GOAL);
-
-//     //Solved or failed to find path
-
-//     std::cout <<"Iterations: "  << iterations << std::endl;
-//     this->nodesExplored = C;
-
-
-//     //DELETE NODELISTS HERE.
-// }
-
-    
-
-
 
 NodeList* PathSolver::getNodesExplored(){
     return new NodeList(*this->nodesExplored);
