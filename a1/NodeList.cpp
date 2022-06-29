@@ -32,7 +32,8 @@ int NodeList::getLength(){
 
 // Add a COPY node element to the BACK of the nodelist.
 void NodeList::addElement(Node* newPos){
-    nodes[this->length] = newPos;
+    //this->nodes[this->length] = new Node(newPos->getRow(), newPos->getCol(), newPos->getDistanceTraveled());
+    this->nodes[this->length] = newPos;
     this->length++;
 }
 

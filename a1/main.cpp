@@ -25,10 +25,10 @@ int main(int argc, char** argv){
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
-    // testNode();
-    // testNodeList();
-    // std::cout << "DONE TESTING" << std::endl << std::endl;
+    std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    testNode();
+    testNodeList();
+    std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
@@ -36,22 +36,22 @@ int main(int argc, char** argv){
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
+
     PathSolver* pathSolver = new PathSolver();
     pathSolver->forwardSearch(env);
-    std::cout << "TESTING fs" << std::endl;
 
     //NodeList* exploredPositions = nullptr;
     //exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
+    // NodeList* solution = pathSolver->getPath(env);
 
-    printEnvStdout(env, solution);
+    //printEnvStdout(env, solution);
 
-    delete pathSolver;
+    //delete pathSolver;
     //delete exploredPositions;
-    delete solution;
+    //delete solution;
 
 }
 
@@ -73,12 +73,12 @@ void readEnvStdin(Env env){
     }
 
     //Print env to console.
-    for(int y = 0; y < ENV_DIM; y++) {
-        for(int x = 0; x < ENV_DIM; x++) {
-            std::cout << env[y][x];      
-        }
-        std::cout << std::endl;
-    }
+    // for(int y = 0; y < ENV_DIM; y++) {
+    //     for(int x = 0; x < ENV_DIM; x++) {
+    //         std::cout << env[y][x];      
+    //     }
+    //     std::cout << std::endl;
+    // }
 
     std::cout << "File Read." << std::endl;
     
@@ -138,5 +138,6 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+
 
 }
