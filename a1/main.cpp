@@ -41,11 +41,12 @@ int main(int argc, char** argv){
     pathSolver->forwardSearch(env);
 
     NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
+    exploredPositions = pathSolver->getNodesExplored(); 
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
+    NodeList* solution = nullptr;
+    solution = pathSolver->getPath(env);
     printEnvStdout(env, solution);
 
     //delete pathSolver;
@@ -86,7 +87,7 @@ void readEnvStdin(Env env){
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
 
-    std::cout << "-------------------_PATH------------------" << std::endl; 
+    std::cout << std::endl << "-------------------_PATH------------------" << std::endl; 
     
     for(int i = 0; i < solution->getLength(); i++) {
 
