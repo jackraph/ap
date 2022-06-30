@@ -89,10 +89,40 @@ void printEnvStdout(Env env, NodeList* solution) {
 
     std::cout << std::endl << "-------------------_PATH------------------" << std::endl; 
     
+    // for(int i = 0; i < solution->getLength(); i++) {
+
+    //     Node* n = solution->getNode(i);
+    //     std::cout << n->getRow() << "," << n->getCol() << "," << std::endl; 
+    // }
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for(int i = 0; i < solution->getLength(); i++) {
 
+        if(i%ENV_DIM == 0) { std::cout << std::endl; }
+
         Node* n = solution->getNode(i);
-        std::cout << n->getRow() << "," << n->getCol() << "," << std::endl; 
+        std::cout << env[n->getRow()][n->getCol()]; 
+    }
+
+    for(int y = 0; y < ENV_DIM; y++) {
+        std::cout << std::endl;
+        for(int x = 0; x < ENV_DIM; x++) {
+
+            //For each step check if solution contains a matching position.
+            bool match = false;
+            for(int i = 0; i < solution->getLength(); i++) {
+                Node* n = solution->getNode(i);
+                if(n->getRow() == y && n->getCol() == x) {
+                    match = true;
+                }
+            }
+
+            if(match) {
+                std::cout << "x";
+            } else {
+                std::cout << env[y][x];
+            }
+        }
     }
 }
 

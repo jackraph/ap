@@ -96,55 +96,13 @@ void PathSolver::forwardSearch(Env env){
 
     //Update create new deep copy of C for nodesExplored
     nodesExplored = C;
-
-
-    //      ~~~~~~TESTING~~~~~
-    // std::cout << std::endl << "Position(p) at Goal: " << p->getRow() << ", " << p->getCol() << "  After the loop.";
-    // std::cout << std::endl << "Steps taken to reach (G): " << p->getDistanceTraveled();
-
-    //TESTING STUFF
-    // for(int i = 0; i < C->getLength(); i++) {
-
-    //     Node* n = C->getNode(i);
-    //     std::cout << n->getRow() << "," << n->getCol() << std::endl; 
-    // }
-
-    // std::cout << std::endl << "-------------------_EXPLORED------------------" << std::endl; 
-    // for(int i = 0; i < nodesExplored->getLength(); i++) {
-
-    //     Node* n = nodesExplored->getNode(i);
-    //     std::cout << n->getRow() << "," << n->getCol() << ", " << n->getDistanceTraveled() << std::endl; 
-    // }
-
-    // std::cout << std::endl << "-------------------_ENVIRONMENT------------------" << std::endl; 
-    // for(int i = 0; i < E->getLength(); i++) {
-
-    //     if(i % ENV_DIM == 0) {
-    //         std::cout << std::endl;
-    //     }
-
-    //     Node* n = E->getNode(i);
-    //     std::cout << n->getSymbol(env); 
-    // }
-
-    // std::cout << std::endl << "-------------------_ENVIRO-Distance------------------" << std::endl; 
-    // for(int i = 0; i < E->getLength(); i++) {
-
-    //     if(i % ENV_DIM == 0) {
-    //         std::cout << std::endl;
-    //     }
-
-    //     Node* n = E->getNode(i);
-    //     int cell = 100 + n->getDistanceTraveled();
-    //     std::cout << "|" << cell; 
-    // }
 }
 
 NodeList* PathSolver::getNodesExplored(){
     return this->nodesExplored;
 }
 
-//Third attempt.
+//
 NodeList* PathSolver::getPath(Env env){
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
@@ -211,4 +169,3 @@ NodeList* PathSolver::getPath(Env env){
     return C;
 }
 
-//-----------------------------
