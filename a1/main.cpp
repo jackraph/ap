@@ -9,19 +9,21 @@
 #include "NodeList.h"
 #include "PathSolver.h"
 
-// Helper test functions
-void testNode();
-void testNodeList();
 
-// Read a environment from standard input.
-void readEnvStdin(Env env);
+// Read a environment from standard input
+void readEnvStdin(Env env, Grid grid);
 
-// Print out a Environment to standard output with path.
+// Print out a Environment to standard output with path
 // To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList* solution);
 
-//Custom testing func
-void CreateEnvFromInput();
+//Milestone 4 additions
+Env make_env(const int rows, const int cols);
+void delete_env(Env env, int rows, int cols);
+
+//----------------------------------
+//DEBUG & TEST FUNCTIONS HERE
+void debugPrintEnv(Env env, Grid grid);
 
 
 int main(int argc, char** argv){
@@ -35,8 +37,11 @@ int main(int argc, char** argv){
     //std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
-    //Env env;
-    //readEnvStdin(env);
+    Env env;
+    Grid grid;
+    readEnvStdin(env, grid);
+    debugPrintEnv(env, grid);
+    //debugPrintEnv(env);
     
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
@@ -56,20 +61,42 @@ int main(int argc, char** argv){
     //delete pathSolver;
     //delete exploredPositions;
     //delete solution;
-
-    CreateEnvFromInput();
 }
 
-// TODO make this return an env i guess.
-void CreateEnvFromInput() {
+Env make_env(const int rows, const int cols) {
+   Env env = nullptr;
 
-    //Code for determining environment size from filestream input here.     
+   if (rows >= 0 && cols >= 0) {
+      env = new char*[rows];
+      for (int i = 0; i != rows; ++i) {
+         env[i] = new char[cols];
+      }
+   }
+   return env;
+}
+
+/*
+ * This function is to help you delete a 
+ * dynamically allocated 2D Environment.
+ */
+void delete_env(Env env, int rows, int cols) {
+   if (rows >= 0 && cols >= 0) {
+      for (int i = 0; i != rows; ++i) {
+         delete env[i];
+      }
+      delete env;
+   }
+   return;
+}
+
+
+// Read environment here.
+void readEnvStdin(Env env, Grid grid){
+   
     std::ifstream infile("input.env");
-    
     if (infile.is_open ()) 
-    {
-        
-        std::vector<std::vector<char>> grid;
+    {  
+        //std::vector<std::vector<char>> grid;
         std::string line;
 
         // Read each line in the input file, push each char in the line to row vector, push row vector grid vector
@@ -79,61 +106,26 @@ void CreateEnvFromInput() {
             for(char c : line) { 
                 row.push_back(c); 
                 }
-
             grid.push_back(row);
         }
-        
 
-        // Print 2d vector to screen now.
+        // Create and populate the env
+        env = make_env(grid.size(), grid[0].size());
         for(int y = 0; y < grid.size(); y++) {
-            std::cout << std::endl;
             for(int x = 0; x < grid[y].size(); x++) {
-
-                std::cout << grid[y][x];
+                env[y][x] = grid[y][x];
             }
         }    
 
-    } else {
-    
-        // Input file doesn't exist. 
-        std::cout << "Input file not found at path 'input.env'." << std::endl;
-    }   
-}
+        //Print env;
+        for(int y = 0; y < grid.size(); y++) {
+            std::cout << std::endl;
+            for(int x = 0; x < grid[y].size(); x++) {
+                std::cout << env[y][x];
+            }
+        }     
 
-// Read environment here.
-void readEnvStdin(Env env){
-
-    std::ifstream infile("input.env");
-    // TEST IF FILE EXISTS BEFORE
-    if (!infile.is_open ()) 
-    {
-        std::cout << "Input file not found at path 'input.env'." << std::endl;
-        return;
-    } else {
-        
-        //Read infile to our Env type.
-        // for(int y = 0; y < ENV_DIM; y++) {
-        //     for(int x = 0; x < ENV_DIM; x++) {
-        //         infile >> env[y][x];
-        //     }
-        // }
-
-
-        std::string r;
-        char c;
-        int row = 0;
-        int col = 0;
-        while(infile.get(c)) {
-            
-            //If endline reached iterate row
-            if(c == '\n') { row++; }
-
-
-            
-        }
-
-        std::cout << "File Read." << std::endl;
-    }   
+    } 
 }
 
 // Print solution here.
@@ -187,49 +179,16 @@ void printEnvStdout(Env env, NodeList* solution) {
 
 }
 
-void testNode() {
-    // std::cout << "TESTING Node" << std::endl;
 
-    // // Make a Node and print out the contents
-    // Node* node = new Node(1, 1, 2);
-    // std::cout << node->getRow() << ",";
-    // std::cout << node->getCol() << ",";
-    // std::cout << node->getDistanceTraveled() << std::endl;
-    // delete node;
+//----------------------------------
+//DEBUG & TEST FUNCTIONS HERE
 
-    // // Change Node and print again
-    // node = new Node(4, 2, 3);
-    // std::cout << node->getRow() << ",";
-    // std::cout << node->getCol() << ",";
-    // std::cout << node->getDistanceTraveled() << std::endl;
-    // delete node;
-}
-
-void testNodeList() {
-    // std::cout << "TESTING NodeList" << std::endl;
-
-    // // Make a simple NodeList, should be empty size
-    // NodeList* nodeList = new NodeList();
-    // std::cout << "NodeList size: " << nodeList->getLength() << std::endl;
-
-    // // Add a Node to the NodeList, print size
-    // Node* b1 = new Node(1, 1, 1);
-    // nodeList->addElement(b1);
-    // std::cout << "NodeList size: " << nodeList->getLength() << std::endl;
-
-    // // Add second Nodetest
-    // Node* b2 = new Node(0, 0, 1);
-    // nodeList->addElement(b2);
-    // std::cout << "NodeList size: " << nodeList->getLength() << std::endl;
-
-    // // Test Get-ith - should be 0,0,1
-    // Node* getB = nodeList->getNode(1);
-    // std::cout << getB->getRow() << ",";
-    // std::cout << getB->getCol() << ",";
-    // std::cout << getB->getDistanceTraveled() << std::endl;
-
-    // // Print out the NodeList
-    // std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
-
-
+//Prints a given Env to the console
+void debugPrintEnv(Env env, Grid grid) {
+    for(int y = 0; y < grid.size(); y++) {
+        std::cout << std::endl;
+        for(int x = 0; x < grid[y].size(); x++) {
+            std::cout << env[y][x];
+        }
+    }  
 }

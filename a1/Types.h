@@ -2,10 +2,12 @@
 #define COSC_ASSIGN_ONE_TYPES
 
 #include <math.h> 
+#include <vector>
 
 // A 2D array to represent the environment or observations
 // REMEMBER: in a environment, the location (x,y) is found by maze[y][x]!
 typedef char** Env;
+typedef std::vector<std::vector<char>> Grid;
 
 #define SYMBOL_WALL     '='
 #define SYMBOL_EMPTY    '.'
