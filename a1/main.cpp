@@ -59,71 +59,72 @@ int main(int argc, char** argv){
 void readEnvStdin(Env env){
 
     std::ifstream infile("input.env");
-    if (!infile.is_open ()) // ALWAYS TEST IF FILE EXISTS
+    // TEST IF FILE EXISTS BEFORE
+    if (!infile.is_open ()) 
     {
         std::cout << "Input file not found at path 'input.env'." << std::endl;
         return;
-    }
-
-    //Read infile to our Env type.
-    for(int y = 0; y < ENV_DIM; y++) {
-        for(int x = 0; x < ENV_DIM; x++) {
-            infile >> env[y][x];
+    } else {
+        //Read infile to our Env type.
+        for(int y = 0; y < ENV_DIM; y++) {
+            for(int x = 0; x < ENV_DIM; x++) {
+                infile >> env[y][x];
+            }
         }
-    }
-
-    //Print env to console.
-    // for(int y = 0; y < ENV_DIM; y++) {
-    //     for(int x = 0; x < ENV_DIM; x++) {
-    //         std::cout << env[y][x];      
-    //     }
-    //     std::cout << std::endl;
-    // }
-
-    std::cout << "File Read." << std::endl;
-    
+        std::cout << "File Read." << std::endl;
+    }   
 }
 
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
 
-    std::cout << std::endl << "-------------------_PATH------------------" << std::endl; 
-    
-    // for(int i = 0; i < solution->getLength(); i++) {
+    std::cout << std::endl << "-------------------PATH------------------" << std::endl; 
 
-    //     Node* n = solution->getNode(i);
-    //     std::cout << n->getRow() << "," << n->getCol() << "," << std::endl; 
-    // }
+    //Get the co ordinates of the start node.
+    int prevNY = solution->getNode(0)->getRow();
+    int prevNX = solution->getNode(0)->getCol();
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    for(int i = 0; i < solution->getLength(); i++) {
 
-        if(i%ENV_DIM == 0) { std::cout << std::endl; }
-
-        Node* n = solution->getNode(i);
-        std::cout << env[n->getRow()][n->getCol()]; 
-    }
-
+    //Loop through ENV
     for(int y = 0; y < ENV_DIM; y++) {
         std::cout << std::endl;
         for(int x = 0; x < ENV_DIM; x++) {
+             char toPrint = env[y][x];
 
-            //For each step check if solution contains a matching position.
-            bool match = false;
+            //For each step check if solution contains a matching position, change chartoprint accordingly
             for(int i = 0; i < solution->getLength(); i++) {
+
                 Node* n = solution->getNode(i);
-                if(n->getRow() == y && n->getCol() == x) {
-                    match = true;
+                int nY = n->getRow();
+                int nX = n->getCol();
+
+                //Determine direction of the move based on previous move coordinates
+                if(nY == y && nX == x) {      
+                    if(toPrint != SYMBOL_GOAL && toPrint != SYMBOL_START) {
+                        if(prevNY < nY && prevNX == nX) {
+                            //UP
+                            toPrint = '^';
+                        } else if(prevNY > nY && prevNX == nX) {
+                            //DOWN
+                            toPrint = 'v';
+                        } else if(prevNX < nX && prevNY == nY) {
+                            //RIGHT
+                            toPrint = '<';
+                        } else if(prevNX > nX && prevNY == nY) {
+                            //Left
+                            toPrint = '>';
+                        }
+                    }                   
                 }
+    
+                prevNY = nY;
+                prevNX = nX;
             }
 
-            if(match) {
-                std::cout << "x";
-            } else {
-                std::cout << env[y][x];
-            }
+            std::cout << toPrint;       
         }
     }
+
 }
 
 void testNode() {
