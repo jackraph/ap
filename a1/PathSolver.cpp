@@ -15,7 +15,7 @@ void PathSolver::forwardSearch(Env env){
     
     // Environment-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList();
-    NodeList* P = new NodeList();
+    NodeList* P = new NodeList(); //Consider later if these need to be newed.
     NodeList* C = new NodeList();
 
     // Starting-Node(S) | Goal-Node(G)
