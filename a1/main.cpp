@@ -49,7 +49,7 @@ int main(int argc, char** argv){
     solution = pathSolver->getPath(env);
     printEnvStdout(env, solution);
 
-    //delete pathSolver;
+    delete pathSolver;
     //delete exploredPositions;
     //delete solution;
 
@@ -84,14 +84,13 @@ void printEnvStdout(Env env, NodeList* solution) {
     int prevNY = solution->getNode(0)->getRow();
     int prevNX = solution->getNode(0)->getCol();
 
-
     //Loop through ENV
     for(int y = 0; y < ENV_DIM; y++) {
         std::cout << std::endl;
         for(int x = 0; x < ENV_DIM; x++) {
              char toPrint = env[y][x];
 
-            //For each step check if solution contains a matching position, change chartoprint accordingly
+            //For each env position check if solution contains a matching position, change char toPrint accordingly
             for(int i = 0; i < solution->getLength(); i++) {
 
                 Node* n = solution->getNode(i);
@@ -108,15 +107,15 @@ void printEnvStdout(Env env, NodeList* solution) {
                             //DOWN
                             toPrint = 'v';
                         } else if(prevNX < nX && prevNY == nY) {
-                            //RIGHT
+                            //LEFT
                             toPrint = '<';
                         } else if(prevNX > nX && prevNY == nY) {
-                            //Left
+                            //RIGHT
                             toPrint = '>';
                         }
                     }                   
                 }
-    
+
                 prevNY = nY;
                 prevNX = nX;
             }

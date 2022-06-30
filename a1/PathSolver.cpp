@@ -15,9 +15,8 @@ void PathSolver::forwardSearch(Env env){
     
     // Environment-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList();
-    NodeList* P = new NodeList(); 
+    NodeList* P = new NodeList();
     NodeList* C = new NodeList();
-
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
     Node* G = nullptr;
@@ -165,6 +164,11 @@ NodeList* PathSolver::getPath(Env env){
 
      iterations++;
     } while (p->getSymbol(env) != SYMBOL_START && iterations < E->getLength());
+
+
+
+    //"Think carefully the path that you return must be from start to finish, not finish to start."
+    //Must return a deep copy.
 
     return C;
 }
