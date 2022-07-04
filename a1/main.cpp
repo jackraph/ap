@@ -91,29 +91,28 @@ void delete_env(Env env, int rows, int cols) {
 
 
 // Read environment here.
-void readEnvStdin(Env env, Grid grid){
+void readEnvStdin(Env env){
    
     std::ifstream infile("input.env");
     if (infile.is_open ()) 
     {  
-        //std::vector<std::vector<char>> grid;
         std::string line;
 
-        // Read each line in the input file, push each char in the line to row vector, push row vector grid vector
+        // Read each line in the input file, push each char in the line to row vector, push row vector the env
         while(std::getline(infile, line)) {
 
             std::vector<char> row;
             for(char c : line) { 
                 row.push_back(c); 
                 }
-            grid.push_back(row);
+            env.push_back(row);
         }
 
         // Create and populate the env
-        env = make_env(grid.size(), grid[0].size());
-        for(int y = 0; y < grid.size(); y++) {
-            for(int x = 0; x < grid[y].size(); x++) {
-                env[y][x] = grid[y][x];
+        env = make_env(env.size(), env[0].size());
+        for(int y = 0; y < env.size(); y++) {
+            for(int x = 0; x < env[y].size(); x++) {
+                env[y][x] = env[y][x];
             }
         }    
 
