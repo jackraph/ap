@@ -2,8 +2,9 @@
 #include <iostream>
 
 // Constructor
-NodeList::NodeList(){
+NodeList::NodeList(int maxSize){
     this->length = 0;
+    this->nodes = new Node*[maxSize];
 }
 
 // Deconstructor
@@ -16,9 +17,10 @@ NodeList::~NodeList(){
 }
 
 // Copy Constructor that produces a DEEP COPY of a given NodeList
-NodeList::NodeList(NodeList& other){
+NodeList::NodeList(NodeList& other, int maxSize){
 
     this->length = other.getLength();
+    this->nodes = new Node*[maxSize];
     //Loop through each node stored in the "other" nodes array and make a copy.
     for(int i = 0; i < this->length; i++) {
         this->nodes[i] = other.getNode(i);
@@ -34,6 +36,7 @@ int NodeList::getLength(){
 void NodeList::addElement(Node* newPos){
 
     this->nodes[this->length] = newPos;
+    //this->nodes[this->length] = new Node(*newPos);
     this->length++;
 }
 

@@ -11,12 +11,12 @@ public:
     /*                                           */
 
     // Constructor/Desctructor
-    NodeList();
+    NodeList(int maxSize);
     ~NodeList();
 
     // Copy Constructor
     // Produces a DEEP COPY of the NodeList
-    NodeList(NodeList& other);
+    NodeList(NodeList& other, int maxSize);
 
     // Number of elements in the NodeList
     int getLength();

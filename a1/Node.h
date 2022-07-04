@@ -30,6 +30,9 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    // Produces a DEEP COPY of the Node
+    Node(Node& other);
+
     //Return char symbol associated with this node.
     char getSymbol(Env env);
 

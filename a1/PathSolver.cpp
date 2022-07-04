@@ -14,16 +14,17 @@ PathSolver::~PathSolver(){
 void PathSolver::forwardSearch(Env env){
     
     // Environment-List(E) | Open-List(P) | Closed-List(C)
-    NodeList* E = new NodeList();
-    NodeList* P = new NodeList();
-    NodeList* C = new NodeList();
+    int size = env.size() * env.size() * 4;
+    NodeList* E = new NodeList(size);
+    NodeList* P = new NodeList(size);
+    NodeList* C = new NodeList(size);
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
     Node* G = nullptr;
 
     // Build Environment-List(E) from given env, then find Starting-Node(S) & Goal-Node(G)
-    for(int y = 0; y < ENV_DIM; y++) {
-        for(int x = 0; x < ENV_DIM; x++) {
+    for(int y = 0; y < env.size(); y++) {
+        for(int x = 0; x < env[0].size(); x++) {
 
             //Create node for each position in the environment
             Node* newNode = new Node(y, x, 0);
@@ -105,9 +106,10 @@ NodeList* PathSolver::getNodesExplored(){
 NodeList* PathSolver::getPath(Env env){
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
-    NodeList* E = new NodeList(*this->nodesExplored);
-    NodeList* P = new NodeList();
-    NodeList* C = new NodeList();
+    int size = env.size() * env.size() * 4;
+    NodeList* E = new NodeList(*this->nodesExplored, size);
+    NodeList* P = new NodeList(size);
+    NodeList* C = new NodeList(size);
 
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
@@ -169,6 +171,13 @@ NodeList* PathSolver::getPath(Env env){
 
     //"Think carefully the path that you return must be from start to finish, not finish to start."
     //Must return a deep copy.
+
+
+    //Print path DEBUGGING ONLY
+    for(int i = 0; i < C->getLength(); i++) {
+        Node* n = C->getNode(i);
+        std::cout << n->getRow() << ", " << n->getCol() << std::endl;
+    }
 
     return C;
 }

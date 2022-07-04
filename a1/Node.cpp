@@ -30,12 +30,18 @@ void Node::setDistanceTraveled(int dist_traveled)
     this->dist_traveled = dist_traveled;
 }
 
-// Algorithm for estimating distance from pos to goal = ([colp − colG] + [rowp − rowG]) + distance travelled.
 int Node::getEstimatedDist2Goal(Node* goal){
     return ((this->col - goal->getCol()) + (this->row - goal->getRow())) + this->dist_traveled;
 }
     
-//--------------------------------                             
+//--------------------------------      
+
+Node::Node(Node& other) {
+    this->row = other.getRow();
+    this->col = other.getCol();
+    this->dist_traveled = other.getDistanceTraveled();
+}
+
 
 char Node::getSymbol(Env env) {
      return env[this->row][this->col];
