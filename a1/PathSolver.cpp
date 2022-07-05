@@ -6,7 +6,6 @@ PathSolver::PathSolver(){
 }
 
 PathSolver::~PathSolver(){
-    //TODO ???
     delete nodesExplored;
     nodesExplored = nullptr;
 }
@@ -38,6 +37,7 @@ void PathSolver::forwardSearch(Env env){
             }            
         }
     }
+
     //Add Starting-Node(S) to the Open-List(P)
     P->addElement(S);  
 
@@ -53,9 +53,9 @@ void PathSolver::forwardSearch(Env env){
         for(int i = 0; i < P->getLength(); i++) {
             Node* n = P->getNode(i);
             //New-Position(n) is not the Closed-List(C)
-            if(!C->isNodeInList(n)) {            
+            if(!C->isPosInList(n)) {            
                 //Current Position(p) is in the Closed-List(C) or New-Position(n) is closer to the goal
-                if(C->isNodeInList(p) || n->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G)) { 
+                if(C->isPosInList(p) || n->getEstimatedDist2Goal(G) < p->getEstimatedDist2Goal(G)) { 
                     p = n; 
                 }           
             }
@@ -79,9 +79,9 @@ void PathSolver::forwardSearch(Env env){
             // Add the reachable Other-Position(q) to the Open-List(P) if it is NOT already in the list
             // Set the distance_travelled of Other-Position(q) to be one more that that of Position(p)
             if(reachable) {
-                if(!(P->isNodeInList(q))) {        
+                if(!(P->isPosInList(q))) {  
+                    q->setDistanceTraveled(p->getDistanceTraveled() + 1);      
                     P->addElement(q); 
-                    q->setDistanceTraveled(p->getDistanceTraveled() + 1);
                 }                           
             }
         }
@@ -94,15 +94,14 @@ void PathSolver::forwardSearch(Env env){
     } while (p->getSymbol(env) != SYMBOL_GOAL && iterations < E->getLength());
 
 
-    //Update create new deep copy of C for nodesExplored
-    nodesExplored = C;
+    //Update nodesExplored with a deep copy of C
+    nodesExplored = new NodeList(*C);
 }
 
 NodeList* PathSolver::getNodesExplored(){
-    return this->nodesExplored;
+    return new NodeList(*this->nodesExplored);
 }
 
-//
 NodeList* PathSolver::getPath(Env env){
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
@@ -126,9 +125,7 @@ NodeList* PathSolver::getPath(Env env){
         }
     }
 
-    //Add goal node to the Open-List(P)
-    P->addElement(G);  
-
+    P->addElement(G);
     // Position(p)
     Node* p = G;
 
@@ -140,7 +137,9 @@ NodeList* PathSolver::getPath(Env env){
         //Select a Position(p) from Open-List(P) that has a distance travelled one less than Position(p)
         for(int i = 0; i < P->getLength(); i++) {
             Node* n = P->getNode(i);
-            if(p->getDistanceTraveled() -1 == n->getDistanceTraveled()) { 
+            //std::cout << "Position(p) distance travelled: " << p->getDistanceTraveled() << std::endl;
+            //std::cout << "Other pos(n) distance travelled: " << n->getDistanceTraveled() << std::endl;
+            if(p->getDistanceTraveled() -1 == n->getDistanceTraveled()) {   
                 p = n; 
             }           
         }  
@@ -154,7 +153,7 @@ NodeList* PathSolver::getPath(Env env){
 
             if(std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol() 
             || std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow()) { 
-               if(!(P->isNodeInList(q))) {        
+               if(!(P->isPosInList(q))) {     
                     P->addElement(q);
                 }       
             }
@@ -172,13 +171,6 @@ NodeList* PathSolver::getPath(Env env){
     //"Think carefully the path that you return must be from start to finish, not finish to start."
     //Must return a deep copy.
 
-
-    //Print path DEBUGGING ONLY
-    for(int i = 0; i < C->getLength(); i++) {
-        Node* n = C->getNode(i);
-        std::cout << n->getRow() << ", " << n->getCol() << std::endl;
-    }
-
-    return C;
+    return new NodeList(*C);
 }
 

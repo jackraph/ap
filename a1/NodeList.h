@@ -32,7 +32,7 @@ public:
     /*                                           */
     
     //Return true if list contains a natching reference at given pointer.
-    bool isNodeInList(Node* node);
+    bool isPosInList(Node* node);
 
 private:
     /*                                           */

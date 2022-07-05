@@ -43,9 +43,9 @@ int main(int argc, char** argv){
     solution = pathSolver->getPath(env);
     printEnvStdout(env, solution);
 
-    //delete pathSolver;
-    //delete exploredPositions;
-    //delete solution;
+    delete pathSolver;
+    delete exploredPositions;
+    delete solution;
 }
 
 

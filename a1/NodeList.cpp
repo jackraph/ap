@@ -23,7 +23,7 @@ NodeList::NodeList(NodeList& other, int maxSize){
     this->nodes = new Node*[maxSize];
     //Loop through each node stored in the "other" nodes array and make a copy.
     for(int i = 0; i < this->length; i++) {
-        this->nodes[i] = other.getNode(i);
+        this->nodes[i] = new Node(*other.getNode(i));
     }
 }
 
@@ -34,9 +34,7 @@ int NodeList::getLength(){
 
 // Add a COPY node element to the BACK of the nodelist.
 void NodeList::addElement(Node* newPos){
-
-    this->nodes[this->length] = newPos;
-    //this->nodes[this->length] = new Node(*newPos);
+    this->nodes[this->length] = new Node(*newPos);
     this->length++;
 }
 
@@ -46,10 +44,10 @@ Node* NodeList::getNode(int i){
 }
 
 //Return true if list contains a node matching the address of given node reference.
-bool NodeList::isNodeInList(Node* node) {
+bool NodeList::isPosInList(Node* node) {
     bool result = false;
     for(int i = 0; i < this->length; i++) {
-        if(node == this->nodes[i]) {
+        if(node->getCol() == this->nodes[i]->getCol() && node->getRow() == this->nodes[i]->getRow()) {
             result = true;
         } 
     }
