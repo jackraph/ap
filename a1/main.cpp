@@ -90,21 +90,21 @@ void printEnvStdout(Env env, NodeList* solution) {
                 int nY = n->getRow();
                 int nX = n->getCol();
 
-                //Determine direction of the move based on previous move coordinates
+                //Determine direction of the move based on previous move coordinates.
                 if(nY == y && nX == x) {      
                     if(toPrint != SYMBOL_GOAL && toPrint != SYMBOL_START) {
                         if(prevNY < nY && prevNX == nX) {
-                            //UP
-                            toPrint = '^';
-                        } else if(prevNY > nY && prevNX == nX) {
                             //DOWN
                             toPrint = 'v';
+                        } else if(prevNY > nY && prevNX == nX) {
+                            //UP
+                            toPrint = '^';
                         } else if(prevNX < nX && prevNY == nY) {
-                            //LEFT
-                            toPrint = '<';
-                        } else if(prevNX > nX && prevNY == nY) {
                             //RIGHT
                             toPrint = '>';
+                        } else if(prevNX > nX && prevNY == nY) {
+                            //LEFT
+                            toPrint = '<';
                         }
                     }                   
                 }

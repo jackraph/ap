@@ -2,7 +2,7 @@
 #include <iostream>
 
 PathSolver::PathSolver(){
-    // TODO ???
+    
 }
 
 PathSolver::~PathSolver(){
@@ -13,10 +13,10 @@ PathSolver::~PathSolver(){
 void PathSolver::forwardSearch(Env env){
     
     // Environment-List(E) | Open-List(P) | Closed-List(C)
-    int size = env.size() * env.size() * 4;
-    NodeList* E = new NodeList(size);
-    NodeList* P = new NodeList(size);
-    NodeList* C = new NodeList(size);
+    int maxSize = env.size() * env.size() * 4;
+    NodeList* E = new NodeList(maxSize);
+    NodeList* P = new NodeList(maxSize);
+    NodeList* C = new NodeList(maxSize);
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
     Node* G = nullptr;
@@ -95,7 +95,11 @@ void PathSolver::forwardSearch(Env env){
 
 
     //Update nodesExplored with a deep copy of C
-    nodesExplored = new NodeList(*C);
+    nodesExplored = new NodeList(*C, maxSize);
+
+    delete E;
+    delete P;
+    delete C;
 }
 
 NodeList* PathSolver::getNodesExplored(){
@@ -105,10 +109,10 @@ NodeList* PathSolver::getNodesExplored(){
 NodeList* PathSolver::getPath(Env env){
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
-    int size = env.size() * env.size() * 4;
-    NodeList* E = new NodeList(*this->nodesExplored, size);
-    NodeList* P = new NodeList(size);
-    NodeList* C = new NodeList(size);
+    int maxSize = env.size() * env.size() * 4;
+    NodeList* E = new NodeList(*this->nodesExplored, maxSize);
+    NodeList* P = new NodeList(maxSize);
+    NodeList* C = new NodeList(maxSize);
 
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
@@ -126,6 +130,7 @@ NodeList* PathSolver::getPath(Env env){
     }
 
     P->addElement(G);
+
     // Position(p)
     Node* p = G;
 
@@ -165,12 +170,18 @@ NodeList* PathSolver::getPath(Env env){
 
      iterations++;
     } while (p->getSymbol(env) != SYMBOL_START && iterations < E->getLength());
+    
+    //Flip the closed list to get the path from start to finish.
+    this->solvedPath = new NodeList(maxSize);
+    for(int i = 1; i <= C->getLength(); i++) {
+        solvedPath->addElement(C->getNode(C->getLength() - i));
+    }
 
+    delete E;
+    delete P;
+    delete C;
 
-
-    //"Think carefully the path that you return must be from start to finish, not finish to start."
-    //Must return a deep copy.
-
-    return new NodeList(*C);
+    //Return a deep copy of the path
+    return new NodeList(*solvedPath, maxSize);
 }
 

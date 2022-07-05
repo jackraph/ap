@@ -44,7 +44,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    
+
+    // Solved path from getPath function
+    NodeList* solvedPath;
 };
 
 
