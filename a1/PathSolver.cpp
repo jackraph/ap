@@ -5,25 +5,27 @@ PathSolver::PathSolver(){
     
 }
 
+
 PathSolver::~PathSolver(){
     delete nodesExplored;
     nodesExplored = nullptr;
 }
 
 void PathSolver::forwardSearch(Env env){
-    
-    // Environment-List(E) | Open-List(P) | Closed-List(C)
     int maxSize = env.size() * env.size() * 4;
+
+    // Environment-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList(maxSize);
     NodeList* P = new NodeList(maxSize);
     NodeList* C = new NodeList(maxSize);
+
     // Starting-Node(S) | Goal-Node(G)
     Node* S = nullptr;
     Node* G = nullptr;
 
     // Build Environment-List(E) from given env, then find Starting-Node(S) & Goal-Node(G)
-    for(int y = 0; y < env.size(); y++) {
-        for(int x = 0; x < env[0].size(); x++) {
+    for(int y = 0; y < (int)env.size(); y++) {
+        for(int x = 0; x < (int)env[0].size(); x++) {
 
             //Create node for each position in the environment
             Node* newNode = new Node(y, x, 0);
@@ -48,7 +50,6 @@ void PathSolver::forwardSearch(Env env){
     //Repeat until goal is found or there is no reachable goal.
     do {
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //Select a Position(p) from Open-List(P) that has the smallest estimated distance to goal and is not in the Closed-List(C)
         for(int i = 0; i < P->getLength(); i++) {
             Node* n = P->getNode(i);
@@ -60,17 +61,15 @@ void PathSolver::forwardSearch(Env env){
                 }           
             }
         }  
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // For each Other-Position(q) in Environment-List(E)
         for(int i = 0; i < E->getLength(); i++) {
             Node* q = E->getNode(i);
 
             // If Other-Position(q) is 1 grid-step away from Position(p) & is not a wall then it is reachable
             bool reachable = false;
-            if(std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol() 
-            || std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow()) { 
+            if((std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol()) 
+            || (std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow())) { 
                 if(q->getSymbol(env) != SYMBOL_WALL) {
                     reachable = true;
                 }
@@ -85,7 +84,6 @@ void PathSolver::forwardSearch(Env env){
                 }                           
             }
         }
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //Add Position(p) to the Closed-List(C)
         C->addElement(p);
@@ -107,25 +105,23 @@ NodeList* PathSolver::getNodesExplored(){
 }
 
 NodeList* PathSolver::getPath(Env env){
+    int maxSize = env.size() * env.size() * 4;
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
-    int maxSize = env.size() * env.size() * 4;
     NodeList* E = new NodeList(*this->nodesExplored, maxSize);
     NodeList* P = new NodeList(maxSize);
     NodeList* C = new NodeList(maxSize);
 
-    // Starting-Node(S) | Goal-Node(G)
-    Node* S = nullptr;
+    // Goal-Node(G)
     Node* G = nullptr;
 
-    // Find Starting-Node(S) & Goal-Node(G)
+    // Find Goal-Node(G)
     for(int i = 0; i < nodesExplored->getLength(); i++){
         Node* n = nodesExplored->getNode(i);
 
-        if (n->getSymbol(env) == SYMBOL_START) {
-            S = n;
-        } else if (n->getSymbol(env) == SYMBOL_GOAL) {
+       if (n->getSymbol(env) == SYMBOL_GOAL) {
             G = n; 
+
         }
     }
 
@@ -138,7 +134,6 @@ NodeList* PathSolver::getPath(Env env){
     
     do {
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //Select a Position(p) from Open-List(P) that has a distance travelled one less than Position(p)
         for(int i = 0; i < P->getLength(); i++) {
             Node* n = P->getNode(i);
@@ -148,22 +143,18 @@ NodeList* PathSolver::getPath(Env env){
                 p = n; 
             }           
         }  
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //Find Neighbour(q) and add it to Open-List(P) if it is NOT already in the list
         for(int i = 0; i < E->getLength(); i++) {
             Node* q = E->getNode(i);
 
-            if(std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol() 
-            || std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow()) { 
+            if((std::abs(q->getRow() - p->getRow()) == 1 && q->getCol() == p->getCol()) 
+            || (std::abs(q->getCol() - p->getCol()) == 1 && q->getRow() == p->getRow())) { 
                if(!(P->isPosInList(q))) {     
                     P->addElement(q);
                 }       
             }
         }
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //Add Position(p) to the Closed-List(C)
         C->addElement(p);

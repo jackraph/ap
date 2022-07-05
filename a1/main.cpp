@@ -14,16 +14,7 @@
 void readEnvStdin(Env &env);
 
 // Print out a Environment to standard output with path
-// To be implemented for Milestone 3
 void printEnvStdout(Env env, NodeList* solution);
-
-//Milestone 4 additions
-Env make_env(const int rows, const int cols);
-void delete_env(Env env, int rows, int cols);
-
-//----------------------------------
-//DEBUG & TEST FUNCTIONS HERE
-void debugPrintEnv(Env env);
 
 
 int main(int argc, char** argv){
@@ -71,64 +62,44 @@ void readEnvStdin(Env& env){
 // Print solution here.
 void printEnvStdout(Env env, NodeList* solution) {
 
-    std::cout << std::endl << "-------------------PATH------------------" << std::endl; 
-
-    //Get the co ordinates of the start node.
-    int prevNY = solution->getNode(0)->getRow();
-    int prevNX = solution->getNode(0)->getCol();
+    //Get the co ordinates of the last node in the solution
+    int prevNY = solution->getNode(solution->getLength() -1)->getRow();
+    int prevNX = solution->getNode(solution->getLength() -1)->getCol();
 
     //Loop through ENV
-    for(int y = 0; y < env.size(); y++) {
+    for(int y = 0; y < (int)env.size(); y++) {
         std::cout << std::endl;
-        for(int x = 0; x < env[y].size(); x++) {
+        for(int x = 0; x < (int)env[y].size(); x++) {
              char toPrint = env[y][x];
 
             //For each env position check if solution contains a matching position, change char toPrint accordingly
-            for(int i = 0; i < solution->getLength(); i++) {
+            //Work backwards through the solution so the arrows reflect the NEXT step not the previous
+            for(int i = 1; i <= solution->getLength(); i++) {
 
-                Node* n = solution->getNode(i);
+                Node* n = solution->getNode(solution->getLength()-i);
                 int nY = n->getRow();
                 int nX = n->getCol();
 
                 //Determine direction of the move based on previous move coordinates.
                 if(nY == y && nX == x) {      
+                    //Inverted because we are working backwards through the solution.
                     if(toPrint != SYMBOL_GOAL && toPrint != SYMBOL_START) {
-                        if(prevNY < nY && prevNX == nX) {
-                            //DOWN
-                            toPrint = 'v';
-                        } else if(prevNY > nY && prevNX == nX) {
-                            //UP
+                        if(prevNY < nY && prevNX == nX) {              
                             toPrint = '^';
-                        } else if(prevNX < nX && prevNY == nY) {
-                            //RIGHT
-                            toPrint = '>';
-                        } else if(prevNX > nX && prevNY == nY) {
-                            //LEFT
+                        } else if(prevNY > nY && prevNX == nX) {              
+                            toPrint = 'v';
+                        } else if(prevNX < nX && prevNY == nY) {         
                             toPrint = '<';
+                        } else if(prevNX > nX && prevNY == nY) {        
+                            toPrint = '>';
                         }
                     }                   
                 }
-
                 prevNY = nY;
                 prevNX = nX;
             }
-
             std::cout << toPrint;       
         }
     }
-}
-
-
-//----------------------------------
-//DEBUG & TEST FUNCTIONS HERE
-
-//Prints a given Env to the console
-void debugPrintEnv(Env env) {
-    //Print env;
-    for(int y = 0; y < env.size(); y++) {
-        std::cout << std::endl;
-        for(int x = 0; x < env[y].size(); x++) {
-            std::cout << env[y][x];
-        }
-    } 
+    std::cout << std::endl;  
 }
