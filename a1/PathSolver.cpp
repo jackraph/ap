@@ -5,14 +5,13 @@ PathSolver::PathSolver(){
     
 }
 
-
 PathSolver::~PathSolver(){
     delete nodesExplored;
     nodesExplored = nullptr;
 }
 
 void PathSolver::forwardSearch(Env env){
-    int maxSize = env.size() * env.size() * 4;
+    int maxSize = env.size() * env[0].size() * 4;
 
     // Environment-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList(maxSize);
@@ -105,7 +104,11 @@ NodeList* PathSolver::getNodesExplored(){
 }
 
 NodeList* PathSolver::getPath(Env env){
-    int maxSize = env.size() * env.size() * 4;
+
+    //Call the forward search algorithm to explore all positions.
+    forwardSearch(env);
+
+    int maxSize = env.size() * env[0].size() * 4;
 
     // Explored-List(E) | Open-List(P) | Closed-List(C)
     NodeList* E = new NodeList(*this->nodesExplored, maxSize);

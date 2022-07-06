@@ -28,25 +28,20 @@ int main(int argc, char** argv){
         Env env;
         readEnvStdin(env, filePath);
 
-        // Solve using forwardSearch
+        // Solve using the PathSolver
         PathSolver* pathSolver = new PathSolver();
-        pathSolver->forwardSearch(env);
-        NodeList* exploredPositions = nullptr;
-        exploredPositions = pathSolver->getNodesExplored(); 
+        NodeList* solution = pathSolver->getPath(env);
 
-        // Get the path
-        NodeList* solution = nullptr;
-        solution = pathSolver->getPath(env);
+        // Print solution
         printEnvStdout(env, solution);
 
         delete pathSolver;
-        delete exploredPositions;
         delete solution;
     } else {
         std::cout << "Please provide a filepath argument when running the program." << std::endl;
     }
+    
 }
-
 
 // Read environment here.
 void readEnvStdin(Env& env, std::string filePath){

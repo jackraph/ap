@@ -6,14 +6,6 @@ NodeList::NodeList(int maxSize){
     this->nodes = new Node*[maxSize];
 }
 
-NodeList::~NodeList(){
-
-    //Loop through nodes array and call deconstructor for each stored node.
-    for(int i = 0; i < this->length; i++) {
-        delete this->nodes[i];
-    }
-}
-
 NodeList::NodeList(NodeList& other, int maxSize){
 
     this->length = other.getLength();
@@ -21,6 +13,14 @@ NodeList::NodeList(NodeList& other, int maxSize){
     //Loop through each node stored in the "other" nodes array and make a copy.
     for(int i = 0; i < this->length; i++) {
         this->nodes[i] = new Node(*other.getNode(i));
+    }
+}
+
+NodeList::~NodeList(){
+
+    //Loop through nodes array and call deconstructor for each stored node.
+    for(int i = 0; i < this->length; i++) {
+        delete this->nodes[i];
     }
 }
 

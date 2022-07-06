@@ -9,6 +9,12 @@ Node::Node(int row, int col, int dist_traveled)
     this->dist_traveled = dist_traveled;
 }
 
+Node::Node(Node& other) {
+    this->row = other.getRow();
+    this->col = other.getCol();
+    this->dist_traveled = other.getDistanceTraveled();
+}
+
 Node::~Node(){
     
 }
@@ -32,16 +38,7 @@ void Node::setDistanceTraveled(int dist_traveled)
 
 int Node::getEstimatedDist2Goal(Node* goal){
     return ((this->col - goal->getCol()) + (this->row - goal->getRow())) + this->dist_traveled;
-}
-    
-//--------------------------------      
-
-Node::Node(Node& other) {
-    this->row = other.getRow();
-    this->col = other.getCol();
-    this->dist_traveled = other.getDistanceTraveled();
-}
-
+}   
 
 char Node::getSymbol(Env env) {
      return env[this->row][this->col];
