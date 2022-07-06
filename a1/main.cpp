@@ -11,7 +11,7 @@
 
 
 // Read a environment from standard input
-void readEnvStdin(Env &env);
+void readEnvStdin(Env &env, std::string);
 
 // Print out a Environment to standard output with path
 void printEnvStdout(Env env, NodeList* solution);
@@ -19,31 +19,39 @@ void printEnvStdout(Env env, NodeList* solution);
 
 int main(int argc, char** argv){
 
-    // Load Environment 
-    Env env;
-    readEnvStdin(env);
-    
-    // Solve using forwardSearch
-    PathSolver* pathSolver = new PathSolver();
-    pathSolver->forwardSearch(env);
-    NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored(); 
+    //Assume second argument passed is the filepath to a text document containing a valid environment.
+    if(argc > 1 && argc < 3) {
 
-    // Get the path
-    NodeList* solution = nullptr;
-    solution = pathSolver->getPath(env);
-    printEnvStdout(env, solution);
+        std::string filePath = argv[1];
 
-    delete pathSolver;
-    delete exploredPositions;
-    delete solution;
+        // Load Environment 
+        Env env;
+        readEnvStdin(env, filePath);
+
+        // Solve using forwardSearch
+        PathSolver* pathSolver = new PathSolver();
+        pathSolver->forwardSearch(env);
+        NodeList* exploredPositions = nullptr;
+        exploredPositions = pathSolver->getNodesExplored(); 
+
+        // Get the path
+        NodeList* solution = nullptr;
+        solution = pathSolver->getPath(env);
+        printEnvStdout(env, solution);
+
+        delete pathSolver;
+        delete exploredPositions;
+        delete solution;
+    } else {
+        std::cout << "Please provide a filepath argument when running the program." << std::endl;
+    }
 }
 
 
 // Read environment here.
-void readEnvStdin(Env& env){
+void readEnvStdin(Env& env, std::string filePath){
    
-    std::ifstream infile("input.env");
+    std::ifstream infile(filePath);
     if (infile.is_open ()) 
     {  
         std::string line;
