@@ -5,7 +5,9 @@ public:
 
     Node(Node& other);
 
+    //Data stored by this node
     int data;
 
+    //Next node in the chain
     Node* next;
 };

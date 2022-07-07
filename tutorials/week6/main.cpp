@@ -16,7 +16,7 @@ int main(int argc, char** argv){
         myVector.push_back(i);
     }
 
-    // (c)Prints out the contents of the vector as a comma separated list on a single line
+    // (c)Print out the contents of the vector as a comma separated list on a single line
     for(int i = 0; i < (int)myVector.size(); i++) {
         std::cout << myVector[i] << ",";
     }
@@ -44,9 +44,10 @@ int main(int argc, char** argv){
     // (d)For each question above draw the picture of the Linked List after every step
     /*
         First Step Picture: [5]
-        Second Step Picture: [5]-[6]
-        Third Step Picture: [4]-[5]-[6]
+        Second Step Picture: [5]->[6]
+        Third Step Picture: [4]->[5]->[6]
     */
+
     //---------------------------------------------------------------------------------
 
 
@@ -64,7 +65,8 @@ int main(int argc, char** argv){
         std::cout << myList->get(i) << ",";
     }
     //---------------------------------------------------------------------------------
-    
 
+
+    std::cout << std::endl;
     delete myList;
 }
