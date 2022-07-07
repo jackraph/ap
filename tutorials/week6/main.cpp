@@ -47,8 +47,6 @@ int main(int argc, char** argv){
         Second Step Picture: [5]-[6]
         Third Step Picture: [4]-[5]-[6]
     */
-
-    delete myList;
     //---------------------------------------------------------------------------------
 
 
@@ -57,16 +55,16 @@ int main(int argc, char** argv){
 
     // QUESTION 3 - QUESTION 5. Repeat Q1 using linked list to demonstrate it working
     //---------------------------------------------------------------------------------
-    LinkedList* myList = new LinkedList();
+    myList->clear();
+
     for(int i = 0; i < 100; i++) {
         myList->addBack(i);
     }
     for(int i = 0; i < myList->size(); i++) {
         std::cout << myList->get(i) << ",";
     }
-    delete myList;
     //---------------------------------------------------------------------------------
+    
 
-
-    std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    delete myList;
 }

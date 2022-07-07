@@ -15,17 +15,19 @@ int LinkedList::size() {
 }
 
 void LinkedList::clear() {
-    Node* current = this->head;
-    Node* next = this->head->next;
-    while (next != nullptr) {
+    if(this->count > 0) {
+        Node* current = this->head;
+        Node* next = this->head->next;
+        while (next != nullptr) {
+            delete current;
+            current = next;
+            next = current->next;
+        }
         delete current;
-        current = next;
-        next = current->next;
+        this->count = 0;
+        this->head = nullptr;
+        this->back = nullptr;
     }
-    delete current;
-    this->count = 0;
-    this->head = nullptr;
-    this->back = nullptr;
 }
 
 int LinkedList::get(int i) {
